@@ -28,7 +28,7 @@ variable "name_prefix" {
 # OPTIONAL PARAMETERS
 # Generally, these values won't need to be changed.
 # ---------------------------------------------------------------------------------------------------------------------
-
+ 
 variable "cidr_block" {
   description = "The IP address range of the VPC in CIDR notation. A prefix of /16 is recommended. Do not use a prefix higher than /27."
   default     = "10.0.0.0/16"

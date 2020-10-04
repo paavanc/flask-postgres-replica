@@ -1,0 +1,23 @@
+steps:
+- id: 'build-image'
+ name: 'gcr.io/cloud-builders/docker'
+  args:
+  - 'build'
+  - '--tag=gcr.io/$PROJECT_ID/flaskapp:latest'
+  - '--file=Dockerfile'
+  - '.'
+- id: 'push-image'
+  name: 'gcr.io/cloud-builders/docker'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      docker push gcr.io/$PROJECT_ID/flaskapp:latest
+  wait_for: ['build-image']
+  id: 'push image'
+substitutions:
+    _TESTING: 'test'
+options:
+    substitution_option: 'ALLOW_LOOSE'
+    machineType: 'N1_HIGHCPU_1'
+timeout: 80000s

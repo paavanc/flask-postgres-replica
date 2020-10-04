@@ -1,5 +1,7 @@
 # pull official base image
 FROM python:3.8.0-alpine
+
+
 # set work directory
 WORKDIR /usr/src/app
 #add google secrets
@@ -17,7 +19,7 @@ RUN mkdir -p /opt/secrets-init && cd /opt/secrets-init \
 # set environment variables
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
-RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev
+RUN apk update && apk add postgresql-dev gcc python3-dev musl-dev wget bash
 # install dependencies
 RUN pip install --upgrade pip
 COPY ./requirements.txt /usr/src/app/requirements.txt
@@ -28,4 +30,4 @@ COPY . /usr/src/app/
 RUN chmod +x docker-entrypoint.sh
 EXPOSE 5000
 RUN ls -la app/
-CMD ["/usr/local/bin/secrets-init", "--provider=google", "/usr/src/app/docker-entrypoint.sh"]
+CMD ["/usr/local/bin/secrets-init", "--provider=google", "sh", "/usr/src/app/docker-entrypoint.sh"]

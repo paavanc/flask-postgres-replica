@@ -53,7 +53,7 @@ resource "google_compute_subnetwork" "vpc_subnetwork_public" {
     )
   }
 
-/*
+
   dynamic "log_config" {
     for_each = var.log_config == null ? [] : list(var.log_config)
 
@@ -63,7 +63,7 @@ resource "google_compute_subnetwork" "vpc_subnetwork_public" {
       metadata             = var.log_config.metadata
     }
   }
-  */
+  
 }
 
 resource "google_compute_router_nat" "vpc_nat" {
@@ -111,7 +111,7 @@ resource "google_compute_subnetwork" "vpc_subnetwork_private" {
     )
   }
 
-/*
+
   dynamic "log_config" {
     for_each = var.log_config == null ? [] : list(var.log_config)
 
@@ -121,7 +121,7 @@ resource "google_compute_subnetwork" "vpc_subnetwork_private" {
       metadata             = var.log_config.metadata
     }
   }
-  */
+  
 }
 
 # ---------------------------------------------------------------------------------------------------------------------

@@ -96,7 +96,7 @@ variable "disable_public_endpoint" {
 variable "master_ipv4_cidr_block" {
   description = "The IP range in CIDR notation to use for the hosted master network. This range will be used for assigning internal IP addresses to the master or set of masters, as well as the ILB VIP. This range must not overlap with any other ranges in use within the cluster's network."
   type        = string
-  default     = ""
+  default     = "10.83.200.0/28"
 }
 
 variable "network_project" {
@@ -117,13 +117,7 @@ variable "master_authorized_networks_config" {
   }]
 EOF
   type        = list(any)
-  #OBV SHOULD NOT BE DONE IN PROD!  But kiss
-  default     = [{
-    cidr_blocks = [{
-      cidr_block   = "0.0.0.0/0"
-      display_name = "example_network"
-    }],
-  }]
+  default     = []
 }
 
 variable "maintenance_start_time" {

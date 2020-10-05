@@ -114,14 +114,22 @@ resource "google_container_cluster" "cluster" {
   master_auth {
     username = var.basic_auth_username
     password = var.basic_auth_password
+    client_certificate_config {
+      issue_client_certificate = false
+    }
   }
-# Not good practice, just for testing :)
-master_authorized_networks_config  {
-       cidr_blocks {
-          cidr_block   = "0.0.0.0/0"
-          display_name = "all"
-        } 
-       
+
+  dynamic "master_authorized_networks_config" {
+    for_each = var.master_authorized_networks_config
+    content {
+      dynamic "cidr_blocks" {
+        for_each = lookup(master_authorized_networks_config.value, "cidr_blocks", [])
+        content {
+          cidr_block   = cidr_blocks.value.cidr_block
+          display_name = lookup(cidr_blocks.value, "display_name", null)
+        }
+      }
+    }
   }
 
   maintenance_policy {

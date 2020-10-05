@@ -2,3 +2,4 @@ terraform
 .gitignore
 postgres-data
 k8-setup
+__pycache__/

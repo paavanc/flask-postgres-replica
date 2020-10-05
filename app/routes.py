@@ -1,9 +1,11 @@
 from datetime import datetime as dt
 
 from flask import current_app as app, request, make_response, jsonify, render_template
-
+from flask_basicauth import BasicAuth
 from . import db
 from .database.models.account import Country, CountryReplica
+
+basic_auth BasicAuth(app)
 
 @app.route('/status', methods=['GET'])
 def hello_world():
@@ -13,6 +15,7 @@ def hello_world():
 
 
 @app.route('/country/', methods=['POST'])
+@basic_auth.required
 def create_user():
     """Create a country."""
     data = request.get_json()
@@ -34,11 +37,13 @@ def create_user():
 
 
 @app.route('/country/<two_letter>', methods=['GET'])
+@basic_auth.required
 def show_country(two_letter):
     country = Country.query.filter_by(two_letter=two_letter).first_or_404()
     return jsonify(country)
 
 @app.route('/country_replica/<two_letter>', methods=['GET'])
+@basic_auth.required
 def show_country_replica(two_letter):
     country = CountryReplica.query.filter_by(two_letter=two_letter).first_or_404()
     return jsonify(country)

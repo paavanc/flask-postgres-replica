@@ -1,20 +1,34 @@
 steps:
-- id: 'build-image'
+- id: 'build-image-flask'
  name: 'gcr.io/cloud-builders/docker'
   args:
   - 'build'
   - '--tag=gcr.io/$PROJECT_ID/flaskapp:latest'
   - '--file=Dockerfile'
   - '.'
-- id: 'push-image'
+- id: 'push-image-flask'
   name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
   args:
     - '-c'
     - |
       docker push gcr.io/$PROJECT_ID/flaskapp:latest
-  wait_for: ['build-image']
-  id: 'push image'
+  wait_for: ['build-image-flask']
+- id: 'build-image-psql'
+  name: 'gcr.io/cloud-builders/docker'
+   args:
+   - 'build'
+   - '--tag=gcr.io/$PROJECT_ID/psql:latest'
+   - '--file=./postgres-data/Dockerfile'
+   - '.'
+ - id: 'push-image-psql'
+   name: 'gcr.io/cloud-builders/docker'
+   entrypoint: 'bash'
+   args:
+     - '-c'
+     - |
+       docker push gcr.io/$PROJECT_ID/psql:latest
+   wait_for: ['build-image-psql']
 substitutions:
     _TESTING: 'test'
 options:

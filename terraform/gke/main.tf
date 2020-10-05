@@ -62,18 +62,10 @@ resource "google_container_cluster" "cluster" {
       for x in [var.alternative_default_service_account] : x if var.alternative_default_service_account != null
     ]
 
-    image_type = "ubuntu"
-    preemptible  = false
-    disk_size_gb       = 30
-    disk_type          = "pd-standard"
-
     content {
       service_account = node_config.value
     }
-    tags = ["k8-node"]
-    workload_metadata_config {
-        node_metadata = "GKE_METADATA_SERVER"
-      }
+
   }
 
   # ip_allocation_policy.use_ip_aliases defaults to true, since we define the block `ip_allocation_policy`

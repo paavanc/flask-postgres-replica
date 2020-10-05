@@ -12,24 +12,24 @@ Sample Flask App Simulating Postgres Replication
 * postgres/data/iso-3166.sql -> country test data
 
 ## Key Routes
-country sample structure: {"name":"country name", "country_id": 1, "two_letter": "CN"}
-GET /country - get country in write database
-GET /country_replica  - get country in read database
-POST /country - create country in write database, will get copied too read database
+* country sample structure: {"name":"country name", "country_id": 1, "two_letter": "CN"}
+* GET /country - get country in write database
+* GET /country_replica  - get country in read database
+* POST /country - create country in write database, will get copied too read database
 
 App uses basic AUTH on all /country end points.
 
-ex: curl --location --request GET 'http://localhost:5000/country' -- header 'Authorization: Basic bas64string=='
+* ex: curl --location --request GET 'http://localhost:5000/country' -- header 'Authorization: Basic bas64string=='
 
-GET /status - health check endpoint
+* GET /status - health check endpoint
 
 ## Key ENV Files
 
-POSTGRES_MAIN_HOST - write postgres host
-POSTGRES_REPLICATION_HOST - read postgres host
-POSTGRES_MAIN_PASSWORD - postgres database password
-BASIC_AUTH_USERNAME - basic auth username
-BASIC_AUTH_PASSWORD - basic auth password
+* POSTGRES_MAIN_HOST - write postgres host
+* POSTGRES_REPLICATION_HOST - read postgres host
+* POSTGRES_MAIN_PASSWORD - postgres database password
+* BASIC_AUTH_USERNAME - basic auth username
+* BASIC_AUTH_PASSWORD - basic auth password
 
 ## Overview
 
@@ -72,15 +72,15 @@ A binary used to translate google secrets in memory at run time.
 One would specify the secret path as an environment variable and that path
 would get translated to its actual value during runtime.
 
-ex: MY_DB_PASSWORD=gcp:secretmanager:projects/$PROJECT_ID/secrets/mydbpassword
+* ex: MY_DB_PASSWORD=gcp:secretmanager:projects/$PROJECT_ID/secrets/mydbpassword
 
-https://github.com/doitintl/secrets-init
+* https://github.com/doitintl/secrets-init
 
 
 ## ArgoCD
 Our k8 deployment tool.
 
-https://argoproj.github.io/argo-cd/getting_started/
+* https://argoproj.github.io/argo-cd/getting_started/
 
 
 ## Make new flask app image
@@ -88,13 +88,14 @@ git push origin main:deploy-production --force
 
 ## Postgres Replicas Stateful Set using Bitnami Helm
 
-helm repo add bitnami https://charts.bitnami.com/bitnami
+* https://engineering.bitnami.com/articles/create-a-production-ready-postgresql-cluster-bitnami-kubernetes-and-helm.html
 
-https://engineering.bitnami.com/articles/create-a-production-ready-postgresql-cluster-bitnami-kubernetes-and-helm.html
+### Commands:
+* helm repo add bitnami https://charts.bitnami.com/bitnami
 
-helm install  bitnami/postgresql -f values-production.yaml --set postgresqlPassword=<> --set replication.password=<> --generate-name -n psql
+* helm install  bitnami/postgresql -f values-production.yaml --set postgresqlPassword=<> --set replication.password=<> --generate-name -n psql
 
-kubectl patch svc psql-svc -n psql -p '{"spec": {"type": "LoadBalancer"}}'
+* kubectl patch svc psql-svc -n psql -p '{"spec": {"type": "LoadBalancer"}}' ->(exposes the services)
 
 ## Add GCR SA Account as a Secret
 

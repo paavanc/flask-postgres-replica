@@ -13,6 +13,9 @@ class Config:
     NOT_FOUND = 'NOT_FOUND'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
+    #
+    DEBUG_MODE = os.environ.get('DEBUG_MODE', NOT_FOUND)
+
     #Basci Auth
     BASIC_AUTH_USERNAME = os.environ.get('BASIC_AUTH_USERNAME', NOT_FOUND)
     BASIC_AUTH_PASSWORD = os.environ.get('BASIC_AUTH_PASSWORD', NOT_FOUND)

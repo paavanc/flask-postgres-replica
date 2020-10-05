@@ -5,7 +5,12 @@ from flask_basicauth import BasicAuth
 from sqlalchemy.sql import text
 from sqlalchemy import create_engine
 
+from healthcheck import HealthCheck, EnvironmentDump
+
 basic_auth = BasicAuth(app)
+if app.config['DEBUG_MODE'] != app.config['NOT_FOUND']:
+    health = HealthCheck(app, "/health")
+    envdump = EnvironmentDump(app, "/env")
 
 SELECT_FROM_QUERY = "SELECT * FROM country where two_letter = :x"
 CREATE_TEXT = "INSERT INTO COUNTRY(name, two_letter, country_id) VALUES (:name, :two_letter, :country_id)"

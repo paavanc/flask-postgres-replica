@@ -1,7 +1,8 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 
-# from flask_migrate import Migrate
+from flask_migrate import Migrate
+from flask_debugtoolbar import DebugToolbarExtension
 # from . import routes, models
 
 # Globally accessible libraries
@@ -19,5 +20,7 @@ def create_app():
     with app.app_context():
         # Include our Routes
         from . import routes
+        toolbar = DebugToolbarExtension(app)
+        migrate = Migrate(app, db)
 
         return app

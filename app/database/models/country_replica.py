@@ -5,15 +5,14 @@ class CountryReplica(db.Model):
 
     __tablename__ = 'country'
     __bind_key__ = 'replica'
-    __abstract__ = True
 
     country_id = db.Column(db.Integer,
-                     index=True,
-                     unique=True,
+                     index=False,
+                     unique=False,
                      nullable=False)
     name = db.Column(db.String(64),
-                     index=True,
-                     unique=True,
+                     index=False,
+                     unique=False,
                      nullable=False)
     two_letter = db.Column(db.String(64),
                     primary_key=True)

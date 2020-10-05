@@ -46,8 +46,9 @@ def create_user():
 @basic_auth.required
 def show_country(two_letter):
     try:
-        country = Country.query.filter_by(two_letter=two_letter).first_or_404()
-        return jsonify(country)
+        #country = Country.query.filter_by(two_letter=two_letter).first_or_404()
+        #return jsonify(country)
+        return Country.query().all()
     except BaseException as error:
         print('An exception occurred: {}'.format(error))
         #Not best practice!
@@ -62,4 +63,3 @@ def show_country_replica(two_letter):
         print('An exception occurred: {}'.format(error))
         #Not best practice!
         return {"error": "Failed to get Country Replica"}
-

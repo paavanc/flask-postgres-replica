@@ -18,7 +18,7 @@ terraform {
 # ---------------------------------------------------------------------------------------------------------------------
 
 resource "google_container_cluster" "cluster" {
-  provider = google-beta
+  provider    = google-beta.gb3
 
   name        = var.name
   description = var.description

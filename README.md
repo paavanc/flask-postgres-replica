@@ -2,13 +2,13 @@
 Sample Flask App Simulating Postgres Replication
 
 ## Infra Directories/Files
-* k8-setup -> Kustomization files for flask apps
+* k8-setup -> Kustomization files for flask app
 * terraform-> Terraform files
 * cloudbuild.yaml-> CI file
 * config.py -> Main configuration
 * wsgi.py -> app startup file
 * Dockerfile -> important information about how the app is packaged
-* app/routes.py -> key routes used for testing Replication
+* app/routes.py -> key routes used for testing replication
 * postgres/data/iso-3166.sql -> country test data
 
 ## Key Routes
@@ -17,7 +17,7 @@ Sample Flask App Simulating Postgres Replication
 * GET /country_replica  - get country in read database
 * POST /country - create country in write database, will get copied too read database
 
-App uses basic AUTH on all /country end points.
+App uses basic AUTH on all /country endpoints.
 
 * ex: curl --location --request GET 'http://localhost:5000/country' -- header 'Authorization: Basic base64string=='
 

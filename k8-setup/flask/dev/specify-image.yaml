@@ -19,3 +19,5 @@ spec:
           envFrom:
             - configMapRef:
                 name: flask-config
+            - secretRef:
+                name: flask-secrets

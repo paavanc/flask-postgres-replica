@@ -45,7 +45,7 @@ docker image and storing it in gcr.
 
 Helm is used to create our Postgres Stateful replica set.
 
-The k8 cluster is running a private subnet and can hit the internet via our
+The k8 cluster is running in a private subnet and can hit the internet via our
 nat gateway.
 
 ## TradeOffs

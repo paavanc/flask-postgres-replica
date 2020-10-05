@@ -11,7 +11,18 @@ Sample Flask App Simulating Postgres Replication
 * app/routes.py -> key routes used for testing replication
 * postgres/data/iso-3166.sql -> country test data
 
+
+## Installation
+Make sure you have python3 installed.  
+* pip3 -r requirements.txt
+
+## Running the App
+* gunicorn -c gunicorn.config.py wsgi:app
+* runs on port 5000
+
+
 ## Key Routes
+
 * country sample structure: {"name":"country name", "country_id": 1, "two_letter": "CN"}
 * GET /country - get country in write database
 * GET /country_replica  - get country in read database
@@ -54,14 +65,6 @@ We initially tried using google secret manager and injecting secrets in memory
 at run time.  However, the doit binary installed in the docker image, which does the translation,  assumes our service only runs via pid one.  This approach won't work because we use a gunicorn server to run our flask app. Gunicorn spins up our flask app on multiple pids.  
 
 It came down to a tradeoff between dynamic passwords and the stability of the app.
-
-
-## Installation
-Make sure you have python3 installed.  
-pip3 -r requirements.txt
-
-## Running the App
-gunicorn -c gunicorn.config.py wsgi:app
 
 
 ## DoIt Binary for Translating passwords stored in Google Secrets Manager

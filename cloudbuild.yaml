@@ -1,18 +1,18 @@
 steps:
 - id: 'build-image-flask'
-  name: 'us.gcr.io/cloud-builders/docker'
+  name: 'gcr.io/cloud-builders/docker'
   args:
     - 'build'
-    - '--tag=gcr.io/$PROJECT_ID/flaskapp:latest'
+    - '--tag=us.gcr.io/$PROJECT_ID/flaskapp:latest'
     - '--file=Dockerfile'
     - '.'
 - id: 'push-image-flask'
-  name: 'us.gcr.io/cloud-builders/docker'
+  name: 'gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
   args:
     - '-c'
     - |
-      docker push gcr.io/$PROJECT_ID/flaskapp:latest
+      docker push us.gcr.io/$PROJECT_ID/flaskapp:latest
   wait_for: ['build-image-flask']
 substitutions:
     _TESTING: 'test'

@@ -1,7 +1,7 @@
 apiVersion: v1
 data:
-  POSTGRES_MAIN_HOST: postgresql-1601875415.sql.svc.cluster.local
-  POSTGRES_REPLICATION_HOST: postgresql-1601875415-read.sql.svc.cluster.local
+  POSTGRES_MAIN_HOST: postgresql-1601875415.psql.svc.cluster.local
+  POSTGRES_REPLICATION_HOST: postgresql-1601875415-read.psql.svc.cluster.local
 kind: ConfigMap
 metadata:
   name: flask-config

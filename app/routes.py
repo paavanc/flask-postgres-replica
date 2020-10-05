@@ -65,7 +65,7 @@ def create_user():
         two_letter = data['two_letter']
         engine = get_sql_engine('SQLALCHEMY_DATABASE_URI')
         with engine.connect() as conn:
-            conn.execute(text(CREATE_TEXT), name=name, two_letter=two_letter, country_id=country_id).fetchall()
+            conn.execute(text(CREATE_TEXT), name=name, two_letter=two_letter, country_id=country_id)
             return {"success": data}
     except BaseException as error:
         print('An exception occurred: {}'.format(error))

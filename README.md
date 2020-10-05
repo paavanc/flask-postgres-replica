@@ -20,18 +20,3 @@ https://engineering.bitnami.com/articles/create-a-production-ready-postgresql-cl
 helm install  bitnami/postgresql -f values-production.yaml --set postgresqlPassword=<> --set replication.password=<> --generate-name -n psql
 
 kubectl patch svc psql-svc -n psql -p '{"spec": {"type": "LoadBalancer"}}'
-
-##Enable workload identity on SA account
-
-This allows us to access google secret manager via a service account
-
-gcloud iam service-accounts create $CLUSTER_NAME-sm --project $SECRETS_MANAGER_PROJECT_ID
-gcloud iam service-accounts add-iam-policy-binding \
-  --role roles/iam.workloadIdentityUser \
-  --member "serviceAccount:$PROJECT_ID.svc.id.goog[$NAMESPACE/gsm-sa]" \
-  $CLUSTER_NAME-sm@$SECRETS_MANAGER_PROJECT_ID.iam.gserviceaccount.com \
-  --project $SECRETS_MANAGER_PROJECT_ID
-gcloud projects add-iam-policy-binding $SECRETS_MANAGER_PROJECT_ID \
-  --role roles/secretmanager.secretAccessor \
-  --member "serviceAccount:$CLUSTER_NAME-sm@$SECRETS_MANAGER_PROJECT_ID.iam.gserviceaccount.com" \
-  --project $SECRETS_MANAGER_PROJECT_ID

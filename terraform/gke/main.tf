@@ -199,7 +199,7 @@ data "google_container_engine_versions" "location" {
 
 
  resource "google_container_node_pool" "default-pool-new" {
-   provider           = google-beta.gb3
+   provider           = google-beta.gb
     name       = "default-pool-new"
  
   location   = var.location

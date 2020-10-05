@@ -1,7 +1,7 @@
 # flask-postgres-replica
 Sample Flask App Simulating Postgres Replication
 
-#Infra Directories/Files
+##Infra Directories/Files
 k8-setup -> Kustomization files for flask apps
 terraform-> Terraform files
 cloudbuild.yaml-> CI file
@@ -11,7 +11,7 @@ Dockerfile -> important information about how the app is packaged
 app/routes.py -> key routes used for testing Replication
 postgres/data/iso-3166.sql -> country test data
 
-#Key Routes
+##Key Routes
 country sample structure: {"name":"country name", "country_id": 1, "two_letter": "CN"}
 GET /country - get country in write database
 GET /country_replica  - get country in read database
@@ -23,7 +23,7 @@ ex: curl --location --request GET 'http://localhost:5000/country' -- header 'Aut
 
 GET /status - health check endpoint
 
-#Key ENV Files
+##Key ENV Files
 
 POSTGRES_MAIN_HOST - write postgres host
 POSTGRES_REPLICATION_HOST - read postgres host
@@ -31,7 +31,7 @@ POSTGRES_MAIN_PASSWORD - postgres database password
 BASIC_AUTH_USERNAME - basic auth username
 BASIC_AUTH_PASSWORD - basic auth password
 
-#Overview
+##Overview
 
 We are using terraform to spin up our VPC, subnets, service accounts and k8 cluster.
 A gcp bucket keeps track of the state and we rely on terraform's free UI service, to keep
@@ -48,7 +48,7 @@ Helm is used to create our Postgres Stateful replica set.
 The k8 cluster is running a private subnet and can hit the internet via our
 nat gateway.
 
-#TradeOffs
+##TradeOffs
 
 We initially tried using google secret manager to inject secrets in memory
 at run time.  However, the doit binary installed in the docker image assumes our
@@ -57,15 +57,15 @@ service only runs via pid one.  This approach won't work because we use gunicorn
 It came down to a tradeoff between dynamic passwords and stability of the app.
 
 
-#Installation
+##Installation
 Make sure you have python3 installed.  
 pip3 -r requirements.txt
 
-#Running the App
+##Running the App
 gunicorn -c gunicorn.config.py wsgi:app
 
 
-#DoIt Binary for Translating passwords stored Google Secrets Manager
+##DoIt Binary for Translating passwords stored in Google Secrets Manager
 
 A binary used to translate google secrets in memory at run time.
 
@@ -77,16 +77,16 @@ ex: MY_DB_PASSWORD=gcp:secretmanager:projects/$PROJECT_ID/secrets/mydbpassword
 https://github.com/doitintl/secrets-init
 
 
-#ArgoCD
+##ArgoCD
 Our k8 deployment tool.
 
 https://argoproj.github.io/argo-cd/getting_started/
 
 
-#Make new flask app image
+##Make new flask app image
 git push origin main:deploy-production --force
 
-#Postgres Replicas Stateful Set using Bitnami Helm
+##Postgres Replicas Stateful Set using Bitnami Helm
 
 helm repo add bitnami https://charts.bitnami.com/bitnami
 

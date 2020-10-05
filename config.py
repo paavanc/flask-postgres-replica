@@ -21,11 +21,9 @@ class Config:
     POSTGRES_MAIN_PASSWORD = os.environ.get('POSTGRES_MAIN_PASSWORD', NOT_FOUND)
 
     #Hosts
-    #POSTGRES_MAIN_HOST = os.environ.get('POSTGRES_MAIN_HOST', 'postgresql-1601875415.sql.svc.cluster.local')
-    #POSTGRES_REPLICATION_HOST= os.environ.get('POSTGRES_REPLICATION_HOST', 'postgresql-1601875415-read.sql.svc.cluster.local')		
+    POSTGRES_MAIN_HOST = os.environ.get('POSTGRES_MAIN_HOST', 'postgresql-1601875415.sql.svc.cluster.local')
+    POSTGRES_REPLICATION_HOST= os.environ.get('POSTGRES_REPLICATION_HOST', 'postgresql-1601875415-read.sql.svc.cluster.local')
 
-    POSTGRES_MAIN_HOST = os.environ.get('POSTGRES_MAIN_HOST', '34.73.253.37')
-    POSTGRES_REPLICATION_HOST= os.environ.get('POSTGRES_REPLICATION_HOST', '35.237.247.34')
     # Database
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI',
                                              f'postgresql+psycopg2://postgres:{POSTGRES_MAIN_PASSWORD}@{POSTGRES_MAIN_HOST}:5432/countries')

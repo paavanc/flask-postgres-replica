@@ -53,7 +53,7 @@ nat gateway.
 We initially tried using google secret manager and injecting secrets in memory
 at run time.  However, the doit binary installed in the docker image, which does the translation,  assumes our service only runs via pid one.  This approach won't work because we use a gunicorn server to run our flask app. Gunicorn spins up our flask app on multiple pids.  
 
-It came down to a tradeoff between dynamic passwords and stability of the app.
+It came down to a tradeoff between dynamic passwords and the stability of the app.
 
 
 ## Installation

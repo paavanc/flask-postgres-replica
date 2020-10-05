@@ -202,7 +202,7 @@ data "google_container_engine_versions" "location" {
    provider           = google-beta.gb3
     name       = "default-pool-new"
  
-  location   = "${var.region}"
+  location   = var.location
  
   cluster    = google_container_cluster.primary.name
   node_count =1

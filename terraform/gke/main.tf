@@ -27,7 +27,7 @@ resource "google_container_cluster" "cluster" {
 
   project    = var.project
   location   = var.location
-  network    = var.network
+  network    = var.network 
   subnetwork = var.subnetwork
 
   logging_service    = var.logging_service

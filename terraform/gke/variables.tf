@@ -3,6 +3,8 @@ variable "GOOGLE_APPLICATION_CREDENTIALS_FILE" {}
 
 variable "terraform_bucket" {}
 
+variable "region" {}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # REQUIRED PARAMETERS
 # These parameters must be supplied when consuming this module.

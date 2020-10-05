@@ -21,14 +21,14 @@ steps:
     - '--tag=gcr.io/$PROJECT_ID/psql:latest'
     - '--file=./postgres-data/Dockerfile'
     - '.'
- - id: 'push-image-psql'
-   name: 'gcr.io/cloud-builders/docker'
-   entrypoint: 'bash'
-   args:
-     - '-c'
-     - |
-       docker push gcr.io/$PROJECT_ID/psql:latest
-   wait_for: ['build-image-psql']
+- id: 'push-image-psql'
+  name: 'gcr.io/cloud-builders/docker'
+  entrypoint: 'bash'
+  args:
+    - '-c'
+    - |
+      docker push gcr.io/$PROJECT_ID/psql:latest
+  wait_for: ['build-image-psql']
 substitutions:
     _TESTING: 'test'
 options:

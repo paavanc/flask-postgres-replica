@@ -117,7 +117,13 @@ variable "master_authorized_networks_config" {
   }]
 EOF
   type        = list(any)
-  default     = []
+  #OBV SHOULD NOT BE DONE IN PROD!  But kiss
+  default     = [{
+    cidr_blocks = [{
+      cidr_block   = "0.0.0.0/0"
+      display_name = "example_network"
+    }],
+  }]
 }
 
 variable "maintenance_start_time" {

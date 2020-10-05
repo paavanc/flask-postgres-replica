@@ -5,8 +5,13 @@ from flask_basicauth import BasicAuth
 from . import db
 from .database.models.country import Country
 from .database.models.country_replica import CountryReplica
+from healthcheck import HealthCheck, EnvironmentDump
 
 basic_auth = BasicAuth(app)
+
+health = HealthCheck(app, "/health")
+envdump = EnvironmentDump(app, "/env")
+
 
 @app.route('/status', methods=['GET'])
 def hello_world():
@@ -40,11 +45,21 @@ def create_user():
 @app.route('/country/<two_letter>', methods=['GET'])
 @basic_auth.required
 def show_country(two_letter):
-    country = Country.query.filter_by(two_letter=two_letter).first_or_404()
-    return jsonify(country)
-
+    try:
+        country = Country.query.filter_by(two_letter=two_letter).first_or_404()
+        return jsonify(country)
+    except BaseException as error:
+        print('An exception occurred: {}'.format(error))
+        #Not best practice!
+        return {"error": "Failed to get Country"}
 @app.route('/country_replica/<two_letter>', methods=['GET'])
 @basic_auth.required
 def show_country_replica(two_letter):
-    country = CountryReplica.query.filter_by(two_letter=two_letter).first_or_404()
-    return jsonify(country)
+    try:
+        country = CountryReplica.query.filter_by(two_letter=two_letter).first_or_404()
+        return jsonify(country)
+    except BaseException as error:
+        print('An exception occurred: {}'.format(error))
+        #Not best practice!
+        return {"error": "Failed to get Country Replica"}
+

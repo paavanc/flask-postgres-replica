@@ -1,6 +1,6 @@
 
 resource "google_service_account" "service_account"{
-  account_id = "${var.cluser_name}-sm"
+  account_id = "${var.cluster_name}-sm"
   display_name= var.sa_name_display_name
 }
 

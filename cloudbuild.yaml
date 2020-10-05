@@ -33,4 +33,5 @@ substitutions:
     _TESTING: 'test'
 options:
     substitution_option: 'ALLOW_LOOSE'
+    machineType: 'N1_HIGHCPU_8'
 timeout: 80000s

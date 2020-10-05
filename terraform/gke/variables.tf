@@ -26,7 +26,7 @@ variable "name" {
 variable "network" {
   description = "A reference (self link) to the VPC network to host the cluster in"
   type        = string
-}
+} 
 
 variable "subnetwork" {
   description = "A reference (self link) to the subnetwork to host the cluster in"

@@ -26,7 +26,7 @@ resource "google_container_cluster" "cluster" {
   default_max_pods_per_node = 30
 
   project    = var.project
-  location   = var.location
+  location   = var.zone
   network    = var.network 
   subnetwork = var.subnetwork
 
@@ -188,7 +188,7 @@ locals {
 
 // Get available master versions in our location to determine the latest version
 data "google_container_engine_versions" "location" {
-  location = var.location
+  location = var.zone
   project  = var.project
 }
 
@@ -197,13 +197,13 @@ data "google_container_engine_versions" "location" {
    provider           = google-beta.gb
     name       = "default-pool-new"
  
-  location   = var.location
+  location   = var.zone
  
   cluster    = google_container_cluster.cluster.name
   node_count =1
    autoscaling {
     min_node_count = 0
-    max_node_count = 3
+    max_node_count = 10
   }
 
   management {

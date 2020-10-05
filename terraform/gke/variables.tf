@@ -5,6 +5,8 @@ variable "terraform_bucket" {}
 
 variable "region" {}
 
+variable "zone" {}
+
 # ---------------------------------------------------------------------------------------------------------------------
 # REQUIRED PARAMETERS
 # These parameters must be supplied when consuming this module.

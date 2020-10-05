@@ -21,12 +21,11 @@ helm install  bitnami/postgresql -f values-production.yaml --set postgresqlPassw
 
 kubectl patch svc psql-svc -n psql -p '{"spec": {"type": "LoadBalancer"}}'
 
-##Add GCR Account
-Should have just given nodes gcr access
+##Add GCR SA Account as a Secret
+
 
 kubectl create secret docker-registry gcr-json-key \
 (out) --docker-server=eu.gcr.io \
 (out) --docker-username=_json_key \
 (out) --docker-password="$(cat ~/json-key-file.json)" \
 (out) --docker-email=any@valid.email
-

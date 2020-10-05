@@ -19,7 +19,7 @@ Sample Flask App Simulating Postgres Replication
 
 App uses basic AUTH on all /country end points.
 
-* ex: curl --location --request GET 'http://localhost:5000/country' -- header 'Authorization: Basic bas64string=='
+* ex: curl --location --request GET 'http://localhost:5000/country' -- header 'Authorization: Basic base64string=='
 
 * GET /status - health check endpoint
 

@@ -3,9 +3,10 @@ from datetime import datetime as dt
 from flask import current_app as app, request, make_response, jsonify, render_template
 from flask_basicauth import BasicAuth
 from . import db
-from .database.models.account import Country, CountryReplica
+from .database.models.country import Country
+from .database.models.country_replica import CountryReplica
 
-basic_auth BasicAuth(app)
+basic_auth = BasicAuth(app)
 
 @app.route('/status', methods=['GET'])
 def hello_world():

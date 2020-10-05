@@ -11,6 +11,7 @@ class Config:
     SECRET_KEY = b'_5#y2L"F4Q8z\n\xec]/'
     SESSION_COOKIE_NAME = 'my_cookie'
     NOT_FOUND = 'NOT_FOUND'
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     #Basci Auth
     BASIC_AUTH_USERNAME = os.environ.get('BASIC_AUTH_USERNAME', 'john')

@@ -5,6 +5,7 @@ class CountryReplica(db.Model):
 
     __tablename__ = 'country'
     __bind_key__ = 'replica'
+    __abstract__ = True
 
     country_id = db.Column(db.Integer,
                      index=True,

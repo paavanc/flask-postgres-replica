@@ -11,4 +11,5 @@ provider "google-beta" {
   project     = "${var.project}"
   region      = "${var.region}"
   alias   = "gb"
+  version = "~> 3.10"
 } 

@@ -196,7 +196,7 @@ data "google_container_engine_versions" "location" {
  
   location   = var.location
  
-  cluster    = google_container_cluster.primary.name
+  cluster    = google_container_cluster.cluster.name
   node_count =1
    autoscaling {
     min_node_count = 0

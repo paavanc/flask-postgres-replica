@@ -50,9 +50,8 @@ nat gateway.
 
 ## TradeOffs
 
-We initially tried using google secret manager to inject secrets in memory
-at run time.  However, the doit binary installed in the docker image assumes our
-service only runs via pid one.  This approach won't work because we use gunicorn to run our flask app. Gunicorn spins up our flask app on multiple pids.  
+We initially tried using google secret manager and injecting secrets in memory
+at run time.  However, the doit binary installed in the docker image, which does the translation,  assumes our service only runs via pid one.  This approach won't work because we use a gunicorn server to run our flask app. Gunicorn spins up our flask app on multiple pids.  
 
 It came down to a tradeoff between dynamic passwords and stability of the app.
 
@@ -105,3 +104,8 @@ kubectl create secret docker-registry gcr-json-key \
 (out) --docker-username=_json_key \
 (out) --docker-password="$(cat ~/json-key-file.json)" \
 (out) --docker-email=any@valid.email
+
+## Sources for terraform and flask app
+* https://github.com/gruntwork-io/terraform-google-network/blob/master/modules/vpc-network/main.tf
+* https://github.com/gruntwork-io/terraform-google-gke/tree/master/modules/gke-cluster
+* https://github.com/ytimocin/flask-postgres-server

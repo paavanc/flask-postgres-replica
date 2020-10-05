@@ -30,6 +30,6 @@ resource "google_service_account_iam_policy" "workload-identity-iam"{
 }
 
 resource "google_project_iam_policy" "project-main"{
-  project = var.projects
+  project = var.project
   policy_data  = data.google_iam_policy.workload-identity-project.policy_data
 }

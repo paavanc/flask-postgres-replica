@@ -1,13 +1,13 @@
 steps:
 - id: 'build-image-flask'
-  name: 'gcr.io/cloud-builders/docker'
+  name: 'us.gcr.io/cloud-builders/docker'
   args:
     - 'build'
     - '--tag=gcr.io/$PROJECT_ID/flaskapp:latest'
     - '--file=Dockerfile'
     - '.'
 - id: 'push-image-flask'
-  name: 'gcr.io/cloud-builders/docker'
+  name: 'us.gcr.io/cloud-builders/docker'
   entrypoint: 'bash'
   args:
     - '-c'

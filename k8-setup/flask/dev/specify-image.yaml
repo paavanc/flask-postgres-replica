@@ -13,7 +13,7 @@ spec:
     spec:
       containers:
         - name: flask
-          image: gcr.io/alpine-dogfish-291517/flaskapp:latest
+          image: us.gcr.io/alpine-dogfish-291517/flaskapp:latest
           envFrom:
             - configMapRef:
                 name: flask-config

@@ -1,0 +1,44 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    run: flask-app
+    role: flask-app
+  name: flask-app
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      run: flask-app
+  template:
+    metadata:
+      labels:
+        run: flask-app
+        role: flask-app
+        container: deploy-flask
+    spec:
+      serviceAccountName: gsm-sa
+      containers:
+      - name: flask
+        imagePullPolicy: 'Always'
+        ports:
+          - name: backend
+            containerPort: 5000
+        readinessProbe:
+          httpGet:
+            path: /status
+            port: 5000
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 1
+          periodSeconds: 30
+        livenessProbe:
+          httpGet:
+            path: /status
+            port: 5000
+          initialDelaySeconds: 30
+          timeoutSeconds: 10
+          successThreshold: 1
+          failureThreshold: 1
+          periodSeconds: 30

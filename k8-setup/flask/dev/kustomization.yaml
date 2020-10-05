@@ -1,0 +1,8 @@
+kind: Kustomization
+resources:
+  - sa.yaml
+  - ../base/
+  - config.yaml
+patchesStrategicMerge:
+  - specify-image.yaml
+namespace: flask

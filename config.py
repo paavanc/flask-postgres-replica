@@ -14,15 +14,15 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
     #Basci Auth
-    BASIC_AUTH_USERNAME = os.environ.get('BASIC_AUTH_USERNAME', 'john')
-    BASIC_AUTH_PASSWORD = os.environ.get('BASIC_AUTH_PASSWORD', 'matrix')
+    BASIC_AUTH_USERNAME = os.environ.get('BASIC_AUTH_USERNAME', NOT_FOUND)
+    BASIC_AUTH_PASSWORD = os.environ.get('BASIC_AUTH_PASSWORD', NOT_FOUND)
 
     #Passwords
     POSTGRES_MAIN_PASSWORD = os.environ.get('POSTGRES_MAIN_PASSWORD', NOT_FOUND)
 
     #Hosts
-    POSTGRES_MAIN_HOST = os.environ.get('POSTGRES_MAIN_HOST', 'postgresql-1601875415.sql.svc.cluster.local')
-    POSTGRES_REPLICATION_HOST= os.environ.get('POSTGRES_REPLICATION_HOST', 'postgresql-1601875415-read.sql.svc.cluster.local')
+    POSTGRES_MAIN_HOST = os.environ.get('POSTGRES_MAIN_HOST', NOT_FOUND)
+    POSTGRES_REPLICATION_HOST= os.environ.get('POSTGRES_REPLICATION_HOST', NOT_FOUND)
 
     # Database
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI',

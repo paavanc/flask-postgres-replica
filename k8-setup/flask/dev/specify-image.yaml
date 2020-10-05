@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: flask-app
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 1
+    type: RollingUpdate
+  template:
+    spec:
+      containers:
+        - name: flask
+          image: gcr.io/alpine-dogfish-291517/flaskapp:latest
+          envFrom:
+            - configMapRef:
+                name: flask-config

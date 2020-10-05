@@ -9,7 +9,7 @@ data "google_iam_policy" "workload-identity-sa"{
   binding {
     role = "roles/iam.workloadIdentityUser"
     members = [
-      "serviceAccount:${var.project}.svc.id.goog[${var.name_space}/${var.k8_sa_account}"],
+      "serviceAccount:${var.project}.svc.id.goog[${var.name_space}/${var.k8_sa_account}]"
     ]
   }
 }
@@ -19,7 +19,7 @@ data "google_iam_policy" "workload-identity-project"{
   binding {
     role = "roles/secretmanager.secretAccessor"
     members = [
-      "serviceAccount:${google_service_account.service_account.email}"],
+      "serviceAccount:${google_service_account.service_account.email}"]
     ]
   }
 }

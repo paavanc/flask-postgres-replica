@@ -11,6 +11,8 @@ spec:
     type: RollingUpdate
   template:
     spec:
+      imagePullSecrets:
+        - name: gcr-json-key
       containers:
         - name: flask
           image: us.gcr.io/alpine-dogfish-291517/flaskapp:latest

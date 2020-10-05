@@ -18,8 +18,6 @@ spec:
         container: deploy-flask
     spec:
       serviceAccountName: gsm-sa
-    imagePullSecrets:
-    - name: gcr-json-key
       containers:
       - name: flask
         imagePullPolicy: 'Always'

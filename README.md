@@ -71,6 +71,7 @@ It came down to a tradeoff between dynamic passwords and the stability of the ap
 
 We used load balancers instead of an ingresses controller because we don't have a domain registered for this app and can't use a domain header to parse traffic.
 
+Finally, no memory or cpu limits are specified for the flask app, because our cluster uses small VMs and we wanted the pod to be scheduled.
 ## DoIt Binary for Translating passwords stored in Google Secrets Manager
 
 A binary used to translate google secrets in memory at run time.

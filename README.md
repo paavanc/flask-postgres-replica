@@ -69,7 +69,7 @@ at run time.  However, the doit binary installed in the docker image, which does
 
 It came down to a tradeoff between dynamic passwords and the stability of the app.
 
-We used load balancers instead of ingresses because we don't have a domain registered for this app and can't use a domain header to route traffic.
+We used load balancers instead of an ingresses controller because we don't have a domain registered for this app and can't use a domain header to parse traffic.
 
 ## DoIt Binary for Translating passwords stored in Google Secrets Manager
 
@@ -105,8 +105,9 @@ git push origin main:deploy-production --force
 
 ## Add GCR SA Account as a Secret
 
+In hindsight we should have given the nodes in the noodpool more GCP access.  
 
-kubectl create secret docker-registry gcr-json-key \
+* kubectl create secret docker-registry gcr-json-key \
 (out) --docker-server=eu.gcr.io \
 (out) --docker-username=_json_key \
 (out) --docker-password="$(cat ~/json-key-file.json)" \

@@ -37,7 +37,7 @@ App uses basic AUTH on all /todo (including / ) endpoints.
 
 * GET /status - health check endpoint
 
-## Key ENV Files
+## Key ENV Variables - must be set for app to work
 
 * POSTGRES_MAIN_HOST - write postgres host
 * POSTGRES_REPLICATION_HOST - read postgres host

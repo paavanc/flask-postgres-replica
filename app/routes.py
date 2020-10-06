@@ -15,6 +15,7 @@ if app.config['DEBUG_MODE'] != app.config['NOT_FOUND']:
 
 SELEC_ALL_FROM = "SELECT * FROM todo"
 SELECT_FROM_QUERY = "SELECT * FROM todo where id = :x"
+SELECT_FROM_QUERY_TASK = "SELECT * FROM todo where task = :x"
 CREATE_TEXT = "INSERT INTO todo(task) VALUES (:task)"
 
 class InvalidUsage(Exception):
@@ -92,7 +93,10 @@ def create_todo():
         data = request.get_json()
         task = data['task']
         create_helper(task)
-        return {"success": data}
+        engine = get_sql_engine('SQLALCHEMY_DATABASE_REPLICA_URI')
+        #Fetching from replica right away may be a bad idea in prod casue of latency
+        with engine.connect() as conn:
+            return result_to_dict(conn.execute(text(SELECT_FROM_QUERY_TASK), x=task).fetchall())[0]
     except BaseException as error:
         print('An exception occurred: {}'.format(error))
         #Not best practice!

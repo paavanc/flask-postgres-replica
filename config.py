@@ -29,10 +29,10 @@ class Config:
 
     # Database
     SQLALCHEMY_DATABASE_URI = os.environ.get('SQLALCHEMY_DATABASE_URI',
-                                             f'postgresql+psycopg2://postgres:{POSTGRES_MAIN_PASSWORD}@{POSTGRES_MAIN_HOST}:5432/countries')
+                                             f'postgresql+psycopg2://postgres:{POSTGRES_MAIN_PASSWORD}@{POSTGRES_MAIN_HOST}:5432/todo')
 
     SQLALCHEMY_DATABASE_REPLICA_URI = os.environ.get('SQLALCHEMY_DATABASE_REPLICA_URI',
-                                             f'postgresql+psycopg2://postgres:{POSTGRES_MAIN_PASSWORD}@{POSTGRES_REPLICATION_HOST}:5432/countries')
+                                             f'postgresql+psycopg2://postgres:{POSTGRES_MAIN_PASSWORD}@{POSTGRES_REPLICATION_HOST}:5432/todo')
     SQLALCHEMY_BINDS = {
         'replica':        SQLALCHEMY_DATABASE_REPLICA_URI
     }

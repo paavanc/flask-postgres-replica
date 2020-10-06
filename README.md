@@ -69,6 +69,7 @@ at run time.  However, the doit binary installed in the docker image, which does
 
 It came down to a tradeoff between dynamic passwords and the stability of the app.
 
+We used load balancers instead of ingresses because we don't have a domain registered for this app and can't use a domain header to route traffic.
 
 ## DoIt Binary for Translating passwords stored in Google Secrets Manager
 
@@ -115,3 +116,4 @@ kubectl create secret docker-registry gcr-json-key \
 * https://github.com/gruntwork-io/terraform-google-network/blob/master/modules/vpc-network/main.tf
 * https://github.com/gruntwork-io/terraform-google-gke/tree/master/modules/gke-cluster
 * https://github.com/ytimocin/flask-postgres-server
+* https://www.geeksforgeeks.org/todo-list-app-using-flask-python/

@@ -9,7 +9,7 @@ Sample Flask App Simulating Postgres Replication
 * wsgi.py -> app startup file
 * Dockerfile -> important information about how the app is packaged
 * app/routes.py -> key routes used for testing replication
-* postgres/data/iso-3166.sql -> country test data
+* postgres/data/iso-3166.sql -> todo test data
 
 
 ## Installation
@@ -23,14 +23,17 @@ Make sure you have python3 installed.
 
 ## Key Routes
 
-* country sample structure: {"name":"country name", "country_id": 1, "two_letter": "CN"}
-* GET /country - get country in write database
-* GET /country_replica  - get country in read database
-* POST /country - create country in write database, will get copied too read database
+* todo sample structure: {"task":"do the dishes"}
+* GET /todo/<id> - get todo in write database
+* GET /todo   - get all todos in write database
+* GET /todo_replica/<id>   - get todo in read database
+* GET /todo_replica   - get all todos in read database
+* POST /todo - create todo in write database, will get copied too read database
+* GET /   - get todo form
 
-App uses basic AUTH on all /country endpoints.
+App uses basic AUTH on all /todo (including / ) endpoints.
 
-* ex: curl --location --request GET 'http://localhost:5000/country' -- header 'Authorization: Basic base64string=='
+* ex: curl --location --request GET 'http://localhost:5000/todo' -- header 'Authorization: Basic base64string=='
 
 * GET /status - health check endpoint
 

@@ -9,7 +9,8 @@ Sample Flask App Simulating Postgres Replication
 * wsgi.py -> app startup file
 * Dockerfile -> important information about how the app is packaged
 * app/routes.py -> key routes used for testing replication
-* postgres/data/iso-3166.sql -> todo test data
+* postgres/data/iso-3166.sql -> country test data
+* postgres/data/todo.sql -> todo schema
 
 
 ## Installation

@@ -29,7 +29,7 @@ Make sure you have python3 installed.
 * GET /todo   - get all todos in write database
 * GET /todo_replica/<id>   - get todo in read database
 * GET /todo_replica   - get all todos in read database
-* POST /todo - create todo in write database, will get copied too read database
+* POST /todo - create todo in write database, will get copied to read database
 * GET /   - get todo form
 
 App uses basic AUTH on all /todo (including / ) endpoints.

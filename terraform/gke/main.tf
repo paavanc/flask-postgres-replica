@@ -16,7 +16,7 @@ terraform {
 # Create the GKE Cluster
 # We want to make a cluster with no node pools, and manage them all with the fine-grained google_container_node_pool resource
 # ---------------------------------------------------------------------------------------------------------------------
-/*
+
 resource "google_container_cluster" "cluster" {
   provider    = google-beta.gb
 
@@ -243,4 +243,4 @@ timeouts {
   } 
  
 }
-    */
+    

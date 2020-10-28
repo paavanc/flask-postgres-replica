@@ -1,14 +1,22 @@
 from datetime import datetime as dt
 
-from flask import current_app as app, request, jsonify
+from flask import current_app as app, request, jsonify, render_template, url_for, redirect, g, abort
 from flask_basicauth import BasicAuth
 from sqlalchemy.sql import text
 from sqlalchemy import create_engine
 
-basic_auth = BasicAuth(app)
+from healthcheck import HealthCheck, EnvironmentDump
 
-SELECT_FROM_QUERY = "SELECT * FROM country where two_letter = :x"
-CREATE_TEXT = "INSERT INTO COUNTRY(name, two_letter, country_id) VALUES (:name, :two_letter, :country_id)"
+
+basic_auth = BasicAuth(app)
+if app.config['DEBUG_MODE'] != app.config['NOT_FOUND']:
+    health = HealthCheck(app, "/health")
+    envdump = EnvironmentDump(app, "/env")
+
+SELEC_ALL_FROM = "SELECT * FROM todo"
+SELECT_FROM_QUERY = "SELECT * FROM todo where id = :x"
+SELECT_FROM_QUERY_TASK = "SELECT * FROM todo where task = :x"
+CREATE_TEXT = "INSERT INTO todo(task) VALUES (:task)"
 
 class InvalidUsage(Exception):
     status_code = 400
@@ -37,14 +45,12 @@ def get_sql_engine(config_key):
     return engine
 
 def result_to_dict(resultproxy):
-    d, a = {}, []
-    for rowproxy in resultproxy:
-    # rowproxy.items() returns an array like [(key0, value0), (key1, value1)]
-        for column, value in rowproxy.items():
-        # build up the dictionary
-            d = {**d, **{column: value}}
-        a.append(d)
-    return d
+    return ([{**row} for row in resultproxy])
+
+def create_helper(task):
+    engine = get_sql_engine('SQLALCHEMY_DATABASE_URI')
+    with engine.connect() as conn:
+        conn.execute(text(CREATE_TEXT), task=task)
 
 
 @app.route('/status', methods=['GET'])
@@ -53,45 +59,98 @@ def hello_world():
         'hello': 'world'
     }
 
-
-@app.route('/country', methods=['POST'])
+@app.route('/', methods = ['GET'])
 @basic_auth.required
-def create_user():
-    """Create a country."""
-    try:
-        data = request.get_json()
-        name = data['name']
-        country_id = data['country_id']
-        two_letter = data['two_letter']
-        engine = get_sql_engine('SQLALCHEMY_DATABASE_URI')
-        with engine.connect() as conn:
-            conn.execute(text(CREATE_TEXT), name=name, two_letter=two_letter, country_id=country_id)
-            return {"success": data}
-    except BaseException as error:
-        print('An exception occurred: {}'.format(error))
-        #Not best practice!
-        raise InvalidUsage("Failed to create Country")
-
-
-@app.route('/country/<two_letter>', methods=['GET'])
-@basic_auth.required
-def show_country(two_letter):
-    try:
-        engine = get_sql_engine('SQLALCHEMY_DATABASE_URI')
-        with engine.connect() as conn:
-            return result_to_dict(conn.execute(text(SELECT_FROM_QUERY), x=two_letter).fetchall())
-    except BaseException as error:
-        print('An exception occurred: {}'.format(error))
-        #Not best practice!
-        raise InvalidUsage("Failed to get Country")
-@app.route('/country_replica/<two_letter>', methods=['GET'])
-@basic_auth.required
-def show_country_replica(two_letter):
+def index():
     try:
         engine = get_sql_engine('SQLALCHEMY_DATABASE_REPLICA_URI')
         with engine.connect() as conn:
-            return result_to_dict(conn.execute(text(SELECT_FROM_QUERY), x=two_letter).fetchall())
+            selection= result_to_dict(conn.execute(text(SELEC_ALL_FROM)).fetchall())
+            return render_template('index.html', complete=selection)
     except BaseException as error:
         print('An exception occurred: {}'.format(error))
         #Not best practice!
-        raise InvalidUsage("Failed to get Country Replica")
+        raise InvalidUsage("Failed to load page")
+
+@app.route('/add_task', methods=['POST'])
+@basic_auth.required
+def add_task():
+    """Create a todo."""
+    try:
+        task = request.form['todoitem']
+        create_helper(task)
+        return redirect(url_for('index'))
+    except BaseException as error:
+        print('An exception occurred: {}'.format(error))
+        #Not best practice!
+        raise InvalidUsage("Failed to create todo")
+
+@app.route('/todo', methods=['POST'])
+@basic_auth.required
+def create_todo():
+    """Create a todo."""
+    try:
+        data = request.get_json()
+        task = data['task']
+        create_helper(task)
+        engine = get_sql_engine('SQLALCHEMY_DATABASE_REPLICA_URI')
+        #Fetching from replica right away may be a bad idea in prod casue of latency
+        with engine.connect() as conn:
+            return result_to_dict(conn.execute(text(SELECT_FROM_QUERY_TASK), x=task).fetchall())[0]
+    except BaseException as error:
+        print('An exception occurred: {}'.format(error))
+        #Not best practice!
+        raise InvalidUsage("Failed to create todo")
+
+
+@app.route('/todo/<id>', methods=['GET'])
+@basic_auth.required
+def show_todo(id):
+    try:
+        engine = get_sql_engine('SQLALCHEMY_DATABASE_URI')
+        with engine.connect() as conn:
+            # throw a 400 for now if item doesn't exist
+            return result_to_dict(conn.execute(text(SELECT_FROM_QUERY), x=id).fetchall())[0]
+    except BaseException as error:
+        print('An exception occurred: {}'.format(error))
+        #Not best practice!
+        raise InvalidUsage("Failed to get todo")
+
+@app.route('/todo_replica/<id>', methods=['GET'])
+@basic_auth.required
+def show_todo_replica(id):
+    try:
+        engine = get_sql_engine('SQLALCHEMY_DATABASE_REPLICA_URI')
+        with engine.connect() as conn:
+            # throw a 400 for now if item doesn't exist
+            return result_to_dict(conn.execute(text(SELECT_FROM_QUERY), x=id).fetchall())[0]
+    except BaseException as error:
+        print('An exception occurred: {}'.format(error))
+        #Not best practice!
+        raise InvalidUsage("Failed to get todo Replica")
+
+# Not pagineted
+@app.route('/todo_replica', methods=['GET'])
+@basic_auth.required
+def show_todo_replica_all():
+    try:
+        engine = get_sql_engine('SQLALCHEMY_DATABASE_REPLICA_URI')
+        with engine.connect() as conn:
+            return jsonify(result_to_dict(conn.execute(text(SELEC_ALL_FROM)).fetchall()))
+    except BaseException as error:
+        print('An exception occurred: {}'.format(error))
+        #Not best practice!
+        raise InvalidUsage("Failed to get all todo Replicas")
+
+# Not pagineted
+@app.route('/todo', methods=['GET'])
+@basic_auth.required
+def show_todo_all():
+    try:
+        engine = get_sql_engine('SQLALCHEMY_DATABASE_URI')
+        with engine.connect() as conn:
+            return jsonify(result_to_dict(conn.execute(text(SELEC_ALL_FROM)).fetchall()))
+    except BaseException as error:
+        print('An exception occurred: {}'.format(error))
+        #Not best practice!
+        raise InvalidUsage("Failed to get all todo Replicas")

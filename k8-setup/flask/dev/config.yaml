@@ -1,10 +1,7 @@
 apiVersion: v1
 data:
-  POSTGRES_MAIN_HOST: postgresql-1601875415.sql.svc.cluster.local
-  POSTGRES_REPLICATION_HOST: postgresql-1601875415-read.sql.svc.cluster.local
-  POSTGRES_MAIN_PASSWORD: projects/398556084727/secrets/POSTGRES_MAIN_PASSWORD
-  BASIC_AUTH_USERNAME: projects/398556084727/secrets/POSTGRES_MAIN_PASSWORD
-  BASIC_AUTH_PASSWORD: projects/398556084727/secrets/BASIC_AUTH_PASSWORD
+  POSTGRES_MAIN_HOST: postgresql-1601875415.psql.svc.cluster.local
+  POSTGRES_REPLICATION_HOST: postgresql-1601875415-read.psql.svc.cluster.local
 kind: ConfigMap
 metadata:
   name: flask-config

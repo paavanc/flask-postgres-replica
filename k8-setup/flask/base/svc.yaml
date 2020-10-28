@@ -7,7 +7,8 @@ spec:
   type: LoadBalancer
   ports:
     - name: backend
-      port: 5000
+      targetPort: 5000
+      port: 80
       protocol: TCP
   selector:
     role: flask-app
